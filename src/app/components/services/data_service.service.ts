@@ -13,13 +13,13 @@ export class DataService {
     return this.http.get(this.api_url + '/transferevaluation/');
   }
   get_distinct_state() {
-    return this.http.get(this.api_url + '/distinctstate');
+    return this.http.get(this.api_url + '/distinctstate/');
   }
   get_distinctmajor() {
-    return this.http.get(this.api_url + '/distinctmajor');
+    return this.http.get(this.api_url + '/distinctmajor/');
   }
   get_distinctschool() {
-    return this.http.get(this.api_url + '/distinctschool');
+    return this.http.get(this.api_url + '/distinctschool/');
   }
 
 }

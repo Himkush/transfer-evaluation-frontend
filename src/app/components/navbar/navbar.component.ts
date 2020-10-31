@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/components/services/auth.service';
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -13,7 +14,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public listTitles: any[];
   public location: Location;
   public isCollapsed = true;
-  constructor(location: Location,  private element: ElementRef, private router: Router) {
+  constructor(location: Location,  private element: ElementRef, private router: Router, private authService: AuthService) {
     this.location = location;
   }
 
@@ -25,6 +26,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   getTitle(){

@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
   static isLogin = false;
   api_url: string = environment.API_url;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private route: Router) {
   }
   register(data) {
     const form_data = new FormData;
@@ -24,6 +25,7 @@ export class AuthService {
     return this.http.post(this.api_url + '/login/', form_data);
   }
   logout() {
-
+    AuthService.isLogin = false;
+    this.route.navigateByUrl('/login')
   }
 }
