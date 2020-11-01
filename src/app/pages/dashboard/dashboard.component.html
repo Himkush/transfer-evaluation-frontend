@@ -8,12 +8,12 @@
       <div class="card a shadow">
         <div class="card-header border-0">
           <div class="row align-items-center">
-            <form class="example-form" [formGroup]="searchForm">
+            <form class="example-form" [formGroup]="searchForm" (ngSubmit)="search_tables()">
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>Major</mat-label>
-                    <input type="text" matInput [formControl]="majorField" [matAutocomplete]="auto">
+                    <input type="text" (blur)="inputControl($event, majorOptions, majorField)" matInput [formControl]="majorField" [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete">
                       <mat-option *ngFor="let option of filteredMajor | async" [value]="option">
                         {{option }}
@@ -24,7 +24,7 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>School</mat-label>
-                    <input type="text" matInput [formControl]="schoolField" [matAutocomplete]="autoSchool">
+                    <input type="text" (blur)="inputControl($event, schoolOptions,schoolField)" matInput [formControl]="schoolField" [matAutocomplete]="autoSchool">
                     <mat-autocomplete #autoSchool="matAutocomplete">
                       <mat-option *ngFor="let o of filteredSchool | async" [value]="o">
                         {{o }}
@@ -35,8 +35,8 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>State</mat-label>
-                    <input type="text" matInput [formControl]="stateField" [matAutocomplete]="autoState">
-                    <mat-autocomplete #autoState="matAutocomplete">
+                    <input type="text" (blur)="inputControl($event, stateOptions, stateField)" matInput [formControl]="stateField" [matAutocomplete]="autoState">
+                    <mat-autocomplete  #autoState="matAutocomplete">
                       <mat-option *ngFor="let option of filteredState | async" [value]="option">
                         {{option }}
                       </mat-option>
@@ -44,7 +44,7 @@
                   </mat-form-field>
                 </div>
                 <div class="col-sm-4">
-                  <button class="btn btn-primary" type="button">GO</button>
+                  <button class="btn btn-primary" type="submit">GO</button>
                 </div>
               </div>
             </form>

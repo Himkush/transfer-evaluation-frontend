@@ -1,3 +1,4 @@
+import { Major, Schools, States } from '../../../model/common.model';
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -10,16 +11,19 @@ export class DataService {
   constructor(private http: HttpClient) {
   }
   get_table_data() {
-    return this.http.get(this.api_url + '/transferevaluation/');
+    return this.http.get<any[]>(this.api_url + '/transferevaluation/');
   }
   get_distinct_state() {
-    return this.http.get(this.api_url + '/distinctstate/');
+    return this.http.get<States[]>(this.api_url + '/distinctstate/');
   }
   get_distinctmajor() {
-    return this.http.get(this.api_url + '/distinctmajor/');
+    return this.http.get<Major[]>(this.api_url + '/distinctmajor/');
   }
   get_distinctschool() {
-    return this.http.get(this.api_url + '/distinctschool/');
+    return this.http.get<Schools[]>(this.api_url + '/distinctschool/');
   }
 
+  get_transferevaluationmaindisplay(state_name, school_name, major_name) {
+    return this.http.get<any[]>(this.api_url + '/transferevaluationmaindisplay/' + state_name + '/' + school_name + '/' + major_name + '/');
+  }
 }
