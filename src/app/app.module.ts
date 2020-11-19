@@ -31,7 +31,7 @@ import { AuthService } from './components/services/auth.service';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
   ],
   providers: [AuthService, AuthGaurd],
   bootstrap: [AppComponent]

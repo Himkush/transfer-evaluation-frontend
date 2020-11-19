@@ -1,7 +1,6 @@
-import { AuthGaurd } from './../../components/gaurds/authGaurd.gaurd';
-import { DataService } from './../../components/services/data_service.service';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -17,6 +16,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AddTablesComponent } from '../../pages/add-tables/add-tables.component';
+import { AuthGaurd } from './../../components/gaurds/authGaurd.gaurd';
+import { DataService } from './../../components/services/data_service.service';
+import { CheckTransferEvaluationComponent } from '../../pages/check-transfer-evaluation/check-transfer-evaluation.component';
 
 
 
@@ -33,10 +36,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatPaginatorModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   declarations: [
     DashboardComponent,
+    AddTablesComponent,
+    CheckTransferEvaluationComponent
   ],
   providers: [DataService]
 })
