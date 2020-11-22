@@ -1,11 +1,13 @@
+import { ToastrService } from 'ngx-toastr';
 import { Major } from '../../../model/common.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataService } from './../../components/services/data_service.service';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import { Observable, of } from 'rxjs';
 import {filter, map, startWith} from 'rxjs/operators';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 
@@ -30,10 +32,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   schoolOptions = ['All'];
   stateOptions = ['All'];
 
-  displayedColumns = ['id', 'approved_status', 'transfer_course_id', 'subject_number', 'title', 'school_id', 'school_name', 'school_state', 'major_req_id', 'major_description', 'major_id', 'major_name', 'approver_id', 'approver_name'];
+  displayedColumns = ['id', 'approved_status', 'transfer_course_id', 'subject_number', 'title', 'school_id', 'school_name', 'school_state', 'major_req_id', 'major_description', 'major_id', 'major_name', 'approver_id', 'approver_name', 'delete'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService,
+              private dialogService: MatDialog,
+              private toastr: ToastrService) {}
   ngOnInit() {
     this.searchForm = new FormGroup({
       'majorField': this.majorField,
@@ -63,12 +67,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         map(value => value ? this._filter(value, this.stateOptions): this.stateOptions.slice())
       );
     });
+    this.get_transfer_eval_data();
+
+  }
+  get_transfer_eval_data() {
     this.dataService.get_table_data().subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
         setTimeout(() => this.dataSource.paginator = this.paginator);
     });
-
-
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -94,6 +100,21 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       })
     }
   }
+  onDelete(data) {
+    const dialogRef = this.dialogService.open(DeleteDialogComponent,{
+      data: data
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataService.delete_transfer_data(data.transfer_eval_id).subscribe(res => {
+          this.get_transfer_eval_data();
+          this.toastr.success('Successfully Deleted!')
+        }, err => {
+          this.toastr.error('Data not Deleted!')
+        });
+      }
+    });
+  }
 
   public updateOptions() {
   }
@@ -103,4 +124,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     return options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
+}
+@Component({
+  selector: 'dashboard-delete-dialog',
+  templateUrl: 'dashboard-delete-dialog.html',
+})
+export class DeleteDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }

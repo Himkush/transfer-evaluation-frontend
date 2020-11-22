@@ -15,6 +15,8 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthService } from './components/services/auth.service';
+import { AddNewOptionsComponent } from './pages/add-new-options/add-new-options.component';
+import { ListOptionsTableComponent } from './pages/list-options-table/list-options-table.component';
 
 
 @NgModule({
@@ -31,7 +33,7 @@ import { AuthService } from './components/services/auth.service';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent,
+    AuthLayoutComponent
   ],
   providers: [AuthService, AuthGaurd],
   bootstrap: [AppComponent]

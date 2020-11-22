@@ -1,3 +1,4 @@
+
 export interface Major {
   major_name: 'string';
 }
@@ -16,4 +17,18 @@ export interface TransferCourses {
 export interface Approvers {
   approver_id: number;
   approver_name: string;
+}
+export interface Majors{
+  major_id: number;
+  major_name: string;
+}
+export interface School{
+  school_id: number;
+  state_name: string;
+  school_name: string;
+}
+export interface MajorRequirement {
+  major_req_id: number;
+  description: string;
+  major_id: number;
 }

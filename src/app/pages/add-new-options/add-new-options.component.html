@@ -1,0 +1,236 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="min-height: 100px; background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+
+    <div class="col-xl-10 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-4 text-right">
+            </div>
+          </div>
+        </div>
+        <div class="card-body font-weight-bold">
+          <div class="row" *ngIf="show_major">
+            <div class="col-4">
+              <div class="form-group">
+                <input type="text" [formControl]="major_name" class="form-control" placeholder="Enter Major">
+              </div>
+              <div class="some-slass">
+                <p class="small text-danger"
+                  *ngIf="major_name.hasError('required') && major_name.touched">
+                  * Major Name is Required
+                </p>
+              </div>
+            </div>
+            <div class="col-4">
+              <button type="button" (click)="add_major()" class="btn btn-primary">
+                Add Major
+              </button>
+            </div>
+          </div>
+          <div class="row" *ngIf="show_approver">
+            <div class="col-4">
+              <div class="form-group">
+                <input type="text" [formControl]="approver_name" class="form-control" placeholder="Enter Approvers">
+              </div>
+              <div class="some-slass">
+                <p class="small text-danger" *ngIf="approver_name.hasError('required') && approver_name.touched">
+                  * Approver Name is Required
+                </p>
+              </div>
+            </div>
+            <div class="col-4">
+              <button type="button" (click)="add_approvers()" class="btn btn-primary">
+                Add Approver
+              </button>
+            </div>
+          </div>
+          <div class="row" *ngIf="show_school">
+            <div class="col-4">
+              <div class="form-group">
+                <input type="text" [formControl]="school_name" class="form-control" placeholder="Enter School">
+              </div>
+              <div class="some-slass">
+                <p class="small text-danger" *ngIf="school_name.hasError('required') && school_name.touched">
+                  * School Name is Required
+                </p>
+              </div>
+            </div>
+            <div class="col-4">
+              <button type="button" (click)="add_school()" class="btn btn-primary">
+                Add School
+              </button>
+            </div>
+          </div>
+          <div class="row" *ngIf="is_update && update_majors" >
+            <div class="col-4">
+              <div class="form-group" >
+                <input type="text" [formControl]="updated_majorField" class="form-control" placeholder="Enter Major">
+              </div>
+              <div class="some-slass">
+                <p class="small text-danger" *ngIf="updated_majorField.hasError('required') && updated_majorField.touched">
+                  * Major Name is Required
+                </p>
+              </div>
+            </div>
+            <div class="col-4">
+              <button type="button" (click)="onUpdateMajor()" class="btn btn-primary">
+                Update Major
+              </button>
+            </div>
+          </div>
+          <div class="row" *ngIf="is_update && update_approver">
+            <div class="col-4">
+              <div class="form-group">
+                <input type="text" [formControl]="updated_approverField" class="form-control" placeholder="Enter Approver">
+              </div>
+              <div class="some-slass">
+                <p class="small text-danger" *ngIf="updated_approverField.hasError('required') && updated_approverField.touched">
+                  * Approver Name is Required
+                </p>
+              </div>
+            </div>
+            <div class="col-4">
+              <button type="button" (click)="onUpdateApprover()" class="btn btn-primary">
+                Update Approver
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <form [formGroup]="updated_majorReqGroup" (submit)="onUpdateMajorReq()" *ngIf="is_update && update_majorReq">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label class="label">Enter Description</label>
+                    <input type="text" formControlName="description" class="form-control" placeholder="Enter Description">
+                  </div>
+                  <div class="some-slass">
+                    <p class="small text-danger"
+                      *ngIf="updated_majorReqGroup.controls['description'].hasError('required') && updated_majorReqGroup.controls['description'].touched">
+                      * Description is Required
+                    </p>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label class="label">Enter Major Id</label>
+                    <input type="text" formControlName="major_id" class="form-control" placeholder="Enter Major Id">
+                  </div>
+                  <div class="some-slass">
+                    <p class="small text-danger"
+                      *ngIf="updated_majorReqGroup.controls['major_id'].hasError('required') && updated_majorReqGroup.controls['major_id'].touched">
+                      * Major Id is Required
+                    </p>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <button type="submit" class="btn btn-primary">
+                    Update Major Req
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <form [formGroup]="updated_schoolGroup" (submit)="onUpdateSchool()" *ngIf="is_update && update_schools">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label class="label">Enter School Name</label>
+                    <input type="text" formControlName="school_name" class="form-control" placeholder="Enter School Name">
+                  </div>
+                  <div class="some-slass">
+                    <p class="small text-danger"
+                      *ngIf="updated_schoolGroup.controls['school_name'].hasError('required') && updated_schoolGroup.controls['school_name'].touched">
+                      * School Name is Required
+                    </p>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="form-group">
+                    <label class="label">Enter State Name</label>
+                    <input type="text" formControlName="state_name" class="form-control" placeholder="Enter State Name">
+                  </div>
+                  <div class="some-slass">
+                    <p class="small text-danger"
+                      *ngIf="updated_schoolGroup.controls['state_name'].hasError('required') && updated_schoolGroup.controls['state_name'].touched">
+                      * Major Id is Required
+                    </p>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <button type="submit" class="btn btn-primary">
+                    Update School
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <form [formGroup]="updated_transferCourseGroup" (submit)="onUpdateTransferCourse()"
+                *ngIf="is_update && update_transferCourse">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label class="label">Enter Subject Number</label>
+                    <input type="text" formControlName="subject_number" class="form-control" placeholder="Enter Subject Number">
+                  </div>
+                  <div class="some-slass">
+                    <p class="small text-danger"
+                      *ngIf="updated_transferCourseGroup.controls['subject_number'].hasError('required') && updated_transferCourseGroup.controls['subject_number'].touched">
+                      * Subject Number is Required
+                    </p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label class="label">Enter Title</label>
+                    <input type="text" formControlName="title" class="form-control" placeholder="Enter Title">
+                  </div>
+                  <div class="some-slass">
+                    <p class="small text-danger"
+                      *ngIf="updated_transferCourseGroup.controls['title'].hasError('required') && updated_transferCourseGroup.controls['title'].touched">
+                      * Title is Required
+                    </p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <label class="label">Enter School id</label>
+                    <input type="text" formControlName="school_id" class="form-control" placeholder="Enter School id">
+                  </div>
+                  <div class="some-slass">
+                    <p class="small text-danger"
+                      *ngIf="updated_transferCourseGroup.controls['school_id'].hasError('required') && updated_transferCourseGroup.controls['school_id'].touched">
+                      * School Id is Required
+                    </p>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <button type="submit" class="btn btn-primary">
+                    Update Transfer
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" />
+        <!-- Description -->
+        <div class="row">
+          <div class="col-12 text-center">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,5 @@
+import { DeleteOptionsDialogComponent, ListOptionsTableComponent } from './../../pages/list-options-table/list-options-table.component';
+import { DeleteDialogComponent } from './../../pages/dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -20,8 +22,9 @@ import { AddTablesComponent } from '../../pages/add-tables/add-tables.component'
 import { AuthGaurd } from './../../components/gaurds/authGaurd.gaurd';
 import { DataService } from './../../components/services/data_service.service';
 import { CheckTransferEvaluationComponent } from '../../pages/check-transfer-evaluation/check-transfer-evaluation.component';
-
-
+import { AddNewOptionsComponent } from '../../pages/add-new-options/add-new-options.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -37,13 +40,20 @@ import { CheckTransferEvaluationComponent } from '../../pages/check-transfer-eva
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
+    MatTabsModule
   ],
   declarations: [
     DashboardComponent,
     AddTablesComponent,
-    CheckTransferEvaluationComponent
+    CheckTransferEvaluationComponent,
+    DeleteDialogComponent,
+    AddNewOptionsComponent,
+    DeleteOptionsDialogComponent,
+    ListOptionsTableComponent
   ],
-  providers: [DataService]
+  providers: [DataService],
+  entryComponents: []
 })
 
 export class AdminLayoutModule {}

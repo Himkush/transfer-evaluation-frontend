@@ -49,20 +49,25 @@
               </div>
               <div class="row">
                 <div class="col-lg-6">
-                  <mat-form-field class="example-full-width">
-                    <mat-label> Major</mat-label>
-                    <input type="text" matInput [formControl]="majorField" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete">
-                      <mat-option *ngFor="let option of filteredMajor | async" [value]="option">
-                        {{option }}
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                  <div class="some-slass">
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('majorField').hasError('required') && addTransferEvaluation.get('majorField').touched">
-                      * Major is Required
-                    </p>
+                  <div class="form-group">
+                    <mat-form-field class="example-full-width">
+                      <mat-label> Major</mat-label>
+                      <input type="text"  matInput [formControl]="majorField" [matAutocomplete]="auto">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredMajor | async" [value]="option">
+                          {{option }}
+                        </mat-option>
+                        <mat-option>
+                          <a [routerLink]="['/add-new-options']" [queryParams]="{'major': true}">Add More Majors</a>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <div class="some-slass">
+                      <p class="small text-danger"
+                        *ngIf="addTransferEvaluation.get('majorField').hasError('required') && addTransferEvaluation.get('majorField').touched">
+                        * Major is Required
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -73,6 +78,9 @@
                     <mat-autocomplete #autoSchool="matAutocomplete">
                       <mat-option *ngFor="let o of filteredSchool | async" [value]="o">
                         {{o }}
+                      </mat-option>
+                      <mat-option>
+                        <a [routerLink]="['/add-new-options']" [queryParams]="{'school': true}">Add More Schools</a>
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
@@ -94,6 +102,9 @@
                       <mat-option *ngFor="let o of filteredTransferCourseTitle | async" [value]="o">
                         {{o }}
                       </mat-option>
+                      <mat-option>
+                        <a >Add More Transfer Course Title</a>
+                      </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
                   <div class="some-slass">
@@ -111,6 +122,9 @@
                     <mat-autocomplete #autoCourseSubject="matAutocomplete">
                       <mat-option *ngFor="let o of filteredTransferCourseSubject | async" [value]="o">
                         {{o }}
+                      </mat-option>
+                      <mat-option>
+                        <a>Add More Transfer Course Subject</a>
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
@@ -131,6 +145,9 @@
                     <mat-autocomplete #autoApproveName="matAutocomplete">
                       <mat-option *ngFor="let o of filteredApproversName | async" [value]="o">
                         {{o }}
+                      </mat-option>
+                      <mat-option>
+                        <a [routerLink]="['/add-new-options']" [queryParams]="{'approver': true}">Add More Approver</a>
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
