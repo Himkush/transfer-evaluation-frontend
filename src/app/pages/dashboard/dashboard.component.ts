@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   public datasets: any;
   public data: any;
+  tableLoading = true;
+  tableError = false;
   dataSource = new MatTableDataSource([]);
   searchForm: FormGroup;
   majorField = new FormControl('All');
@@ -32,7 +34,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   schoolOptions = ['All'];
   stateOptions = ['All'];
 
-  displayedColumns = ['id', 'approved_status', 'transfer_course_id', 'subject_number', 'title', 'school_id', 'school_name', 'school_state', 'major_req_id', 'major_description', 'major_id', 'major_name', 'approver_id', 'approver_name', 'delete'];
+  displayedColumns = ['id', 'approved_status', 'subject_number', 'title', 'school_name', 'school_state', 'major_description', 'major_name', 'approver_name', 'delete'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private dataService: DataService,
@@ -71,9 +73,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   }
   get_transfer_eval_data() {
+    this.tableLoading = true;
     this.dataService.get_table_data().subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
+        this.tableLoading = false;
         setTimeout(() => this.dataSource.paginator = this.paginator);
+    }, err => {
+      this.tableLoading = false;
+      this.tableError = true;
+      this.toastr.error('Some Error Occurred!');
     });
   }
   ngAfterViewInit() {
@@ -101,7 +109,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
   onDelete(data) {
-    const dialogRef = this.dialogService.open(DeleteDialogComponent,{
+    const dialogRef = this.dialogService.open(DeleteDialogComponent, {
       data: data
     });
     dialogRef.afterClosed().subscribe(result => {

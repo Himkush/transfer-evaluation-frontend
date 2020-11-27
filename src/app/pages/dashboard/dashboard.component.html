@@ -6,7 +6,7 @@
     <div class="col-xl-12 mb-5 mb-xl-0">
 
       <div class="card a shadow">
-        <div class="card-header border-0">
+        <div class="card-header m-auto border-0">
           <div class="row align-items-center">
             <form class="example-form" [formGroup]="searchForm" (ngSubmit)="search_tables()">
               <div class="row">
@@ -43,8 +43,8 @@
                     </mat-autocomplete>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-4">
-                  <button class="btn btn-primary" type="submit">GO</button>
+                <div class="m-auto">
+                  <button class="btn btn-primary" type="submit">FIND</button>
                 </div>
               </div>
             </form>
@@ -70,12 +70,6 @@
               <td mat-cell *matCellDef="let element"> {{element.approved_status}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="transfer_course_id">
-              <th mat-header-cell *matHeaderCellDef> Transfer course Id </th>
-              <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.transfer_course_id}} </td>
-            </ng-container>
-
-
             <ng-container matColumnDef="subject_number">
               <th mat-header-cell *matHeaderCellDef> Subject Number </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.subject_number}} </td>
@@ -85,10 +79,6 @@
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.title}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="school_id">
-              <th mat-header-cell *matHeaderCellDef> School Id </th>
-              <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.school_id.school_id}} </td>
-            </ng-container>
             <ng-container matColumnDef="school_name">
               <th mat-header-cell *matHeaderCellDef> School Name </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.school_id.school_name}} </td>
@@ -97,25 +87,13 @@
               <th mat-header-cell *matHeaderCellDef> School State </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.school_id.state_name}} </td>
             </ng-container>
-            <ng-container matColumnDef="major_req_id">
-              <th mat-header-cell *matHeaderCellDef>Major Required Id </th>
-              <td mat-cell *matCellDef="let element"> {{element.major_req_id.major_req_id}} </td>
-            </ng-container>
             <ng-container matColumnDef="major_description">
               <th mat-header-cell *matHeaderCellDef>Major Description</th>
               <td mat-cell *matCellDef="let element"> {{element.major_req_id.description}} </td>
             </ng-container>
-            <ng-container matColumnDef="major_id">
-              <th mat-header-cell *matHeaderCellDef>Major Id</th>
-              <td mat-cell *matCellDef="let element"> {{element.major_req_id.major_id.major_id}} </td>
-            </ng-container>
             <ng-container matColumnDef="major_name">
               <th mat-header-cell *matHeaderCellDef>Major Name</th>
               <td mat-cell *matCellDef="let element"> {{element.major_req_id.major_id.major_name}} </td>
-            </ng-container>
-            <ng-container matColumnDef="approver_id">
-              <th mat-header-cell *matHeaderCellDef>Major Name</th>
-              <td mat-cell *matCellDef="let element"> {{element.approver_id.approver_id}} </td>
             </ng-container>
             <ng-container matColumnDef="approver_name">
               <th mat-header-cell *matHeaderCellDef>Approver Name</th>
@@ -132,8 +110,13 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
-            <mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator>
-
+            <mat-paginator *ngIf="!tableLoading" [pageSize]="10" showFirstLastButtons></mat-paginator>
+          <div class="row" style="display: flex; justify-content: center; align-items: center">
+            <div class="loader" *ngIf="tableLoading">Loading...</div>
+            <div class="font-weight-bolder" *ngIf="tableError">
+              Some Error Occurred while fetching data!
+            </div>
+          </div>
 
           <!-- Projects table -->
           <!-- <table class="table align-items-center table-flush">

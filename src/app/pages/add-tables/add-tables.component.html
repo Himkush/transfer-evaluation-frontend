@@ -52,7 +52,7 @@
                   <div class="form-group">
                     <mat-form-field class="example-full-width">
                       <mat-label> Major</mat-label>
-                      <input type="text"  matInput [formControl]="majorField" [matAutocomplete]="auto">
+                      <input type="text"  matInput [formControl]="majorField" (blur)="inputControl($event, majorOptions, majorField)" [matAutocomplete]="auto">
                       <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let option of filteredMajor | async" [value]="option">
                           {{option }}
@@ -73,7 +73,7 @@
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>School</mat-label>
-                    <input type="text"  matInput [formControl]="schoolField"
+                    <input type="text"  matInput [formControl]="schoolField" (blur)="inputControl($event, schoolOptions, schoolField)"
                       [matAutocomplete]="autoSchool">
                     <mat-autocomplete #autoSchool="matAutocomplete">
                       <mat-option *ngFor="let o of filteredSchool | async" [value]="o">
@@ -96,7 +96,7 @@
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>Transfer Course Title</mat-label>
-                    <input type="text" matInput [formControl]="transferCourseTitle"
+                    <input type="text" matInput [formControl]="transferCourseTitle" (blur)="inputControl($event, courseTitleOptions, transferCourseTitle)"
                       [matAutocomplete]="autoCourseTitle">
                     <mat-autocomplete #autoCourseTitle="matAutocomplete">
                       <mat-option *ngFor="let o of filteredTransferCourseTitle | async" [value]="o">
@@ -140,7 +140,7 @@
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>Approver Name</mat-label>
-                    <input type="text" matInput
+                    <input type="text" matInput (blur)="inputControl($event, approverNameOptions, approversName)"
                       [formControl]="approversName" [matAutocomplete]="autoApproveName">
                     <mat-autocomplete #autoApproveName="matAutocomplete">
                       <mat-option *ngFor="let o of filteredApproversName | async" [value]="o">

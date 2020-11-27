@@ -50,7 +50,9 @@ export class AddNewOptionsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!(this.show_major || this.show_approver || this.show_school || this.is_update)) {
-      // this.router.navigateByUrl('/addTables');
+      this.router.navigateByUrl('/addTables');
+    } else if (!(this.dataService.approversData || this .dataService.majorData || this.dataService.majorReqData || this.dataService.schoolData || this.dataService.approversData)) {
+      this.router.navigateByUrl('/list-table-options');
     }
     if (this.update_majors) {
       this.updated_majorField.setValue(this.dataService.majorData.major_name);
@@ -120,7 +122,7 @@ export class AddNewOptionsComponent implements OnInit {
         approver_name: this.updated_approverField.value
       }).subscribe(res => {
         this.toastr.success('Updated Successfully!');
-        this.router.navigate(['list-table-options']);
+        this.router.navigate(['list-table-options'], {queryParams: {'table': 'approvers'}});
       }, err => {
         this.toastr.error('Some Error Occurred!');
       })
@@ -137,7 +139,7 @@ export class AddNewOptionsComponent implements OnInit {
         major_name: this.updated_majorField.value
       }).subscribe(res => {
         this.toastr.success('Updated Successfully!');
-        this.router.navigate(['list-table-options']);
+        this.router.navigate(['list-table-options'], {queryParams: {'table': 'majors'}});
       }, err => {
         this.toastr.error('Some Error Occurred!');
       });
@@ -155,7 +157,7 @@ export class AddNewOptionsComponent implements OnInit {
         state_name: formValue.state_name
       }).subscribe(res => {
         this.toastr.success('Updated Successfully!');
-        this.router.navigate(['list-table-options']);
+        this.router.navigate(['list-table-options'],  {queryParams: {'table': 'schools'}});
       }, err => {
         this.toastr.error('Some Error Occurred!');
       });
@@ -173,7 +175,7 @@ export class AddNewOptionsComponent implements OnInit {
         major_id: formValue.major_id
       }).subscribe(res => {
         this.toastr.success('Updated Successfully!');
-        this.router.navigate(['list-table-options']);
+        this.router.navigate(['list-table-options'], {queryParams: {'table': 'majorReq'}});
       }, err => {
         this.toastr.error('Some Error Occurred!');
       });
@@ -192,7 +194,7 @@ export class AddNewOptionsComponent implements OnInit {
         school_id: formValue.school_id
       }).subscribe(res => {
         this.toastr.success('Updated Successfully!');
-        this.router.navigate(['list-table-options']);
+        this.router.navigate(['list-table-options', , {queryParams: {'table': 'transferCourse'}}]);
       }, err => {
         this.toastr.error('Some Error Occurred!');
       })

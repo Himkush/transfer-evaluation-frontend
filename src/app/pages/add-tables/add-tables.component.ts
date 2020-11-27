@@ -125,6 +125,16 @@ export class AddTablesComponent implements OnInit {
     }
   }
 
+  inputControl(event, options, field) {
+    setTimeout(() => {
+        let isValueTrue = options.filter(myAlias => {
+              return myAlias ? myAlias.includes(event.target.value) : null;
+            });
+        if (isValueTrue && isValueTrue.length === 0) {
+            field.setValue(null);
+        }
+    }, 300);
+  }
    private _filter(value: string, options): string[] {
     const filterValue = value.toLowerCase();
     return options.filter(option => {

@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from './../../components/services/data_service.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
@@ -22,13 +22,29 @@ export class ListOptionsTableComponent implements OnInit {
   schoolColumns = ['school_id', 'school_name', 'state_name', 'update', 'delete'];
   majorReqColumns = ['major_req_id', 'description', 'update', 'delete'];
   transferCourseColumns = ['transfer_course_id', 'subject_number', 'title', 'school_id', 'update', 'delete'];
-
+  tabIndexValue = 0;
 
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   constructor(private dataService: DataService,
               private dialogService: MatDialog,
               private router: Router,
-              private toastr: ToastrService) { }
+              private activatedRoute: ActivatedRoute,
+              private toastr: ToastrService) {
+                this.activatedRoute.queryParams.subscribe(params => {
+                      const tabName = params['table'];
+                      if (tabName === 'approvers') {
+                        this.tabIndexValue = 0;
+                      } else if (tabName === 'schools') {
+                        this.tabIndexValue = 1;
+                      } else if (tabName === 'majors') {
+                        this.tabIndexValue = 2;
+                      } else if (tabName === 'majorReq') {
+                        this.tabIndexValue = 3;
+                      } else if(tabName === 'tranferCourse') {
+                        this.tabIndexValue = 4;
+                      }
+                  });
+              }
   ngOnInit(): void {
     this.get_approver_data();
     this.get_school_data();

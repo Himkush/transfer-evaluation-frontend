@@ -8,10 +8,9 @@ import { CheckTransferEvaluationComponent } from '../../pages/check-transfer-eva
 import { AddNewOptionsComponent } from '../../pages/add-new-options/add-new-options.component';
 
 export const AdminLayoutRoutes: Routes = [
-    // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGaurd] }
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'addTables', component: AddTablesComponent },
-    { path: 'checktransferevaluation', component: CheckTransferEvaluationComponent},
-    { path: 'add-new-options', component: AddNewOptionsComponent},
-    { path: 'list-table-options', component: ListOptionsTableComponent}
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGaurd] },
+    { path: 'addTables', component: AddTablesComponent, canActivate: [AuthGaurd] },
+    { path: 'checktransferevaluation', component: CheckTransferEvaluationComponent, canActivate: [AuthGaurd]},
+    { path: 'add-new-options', component: AddNewOptionsComponent, canActivate: [AuthGaurd]},
+    { path: 'list-table-options', component: ListOptionsTableComponent, canActivate: [AuthGaurd]}
 ];
