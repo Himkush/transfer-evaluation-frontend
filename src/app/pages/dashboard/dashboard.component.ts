@@ -8,6 +8,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import { Observable, of } from 'rxjs';
 import {filter, map, startWith} from 'rxjs/operators';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSort } from '@angular/material/sort';
 
 
 
@@ -36,6 +37,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['id', 'approved_status', 'subject_number', 'title', 'school_name', 'school_state', 'major_description', 'major_name', 'approver_name', 'delete'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private dataService: DataService,
               private dialogService: MatDialog,
@@ -77,7 +79,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.dataService.get_table_data().subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
         this.tableLoading = false;
-        setTimeout(() => this.dataSource.paginator = this.paginator);
+        setTimeout(() => {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.sortHelper();
+        });
     }, err => {
       this.tableLoading = false;
       this.tableError = true;
@@ -86,6 +92,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   inputControl(event, options, field) {
@@ -122,6 +129,20 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         });
       }
     });
+  }
+  sortHelper() {
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'subject_number': return item.transfer_course_id.subject_number;
+        case 'title':  return item.transfer_course_id.title;
+        case 'school_name': return item.transfer_course_id.school_id.school_name;
+        case 'school_state': return item.transfer_course_id.school_id.state_name;
+        case 'major_description': return item.major_req_id.description;
+        case 'major_name': return item.major_req_id.major_id.major_name;
+        case 'approver_name': return item.approver_id.approver_name;
+        default: return item[property];
+      }
+    }
   }
 
   public updateOptions() {

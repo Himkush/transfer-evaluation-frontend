@@ -51,7 +51,9 @@ export class AddNewOptionsComponent implements OnInit {
   ngOnInit(): void {
     if (!(this.show_major || this.show_approver || this.show_school || this.is_update)) {
       this.router.navigateByUrl('/addTables');
-    } else if (!(this.dataService.approversData || this .dataService.majorData || this.dataService.majorReqData || this.dataService.schoolData || this.dataService.approversData)) {
+    } else if (!(this.dataService.approversData || this .dataService.majorData
+       || this.dataService.majorReqData || this.dataService.schoolData || this.dataService.approversData
+       || this.show_major || this.show_approver || this.show_school || this.is_update)) {
       this.router.navigateByUrl('/list-table-options');
     }
     if (this.update_majors) {

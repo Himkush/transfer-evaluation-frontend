@@ -57,46 +57,46 @@
           </div>
         </div>
         <div class="table-responsive">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z8">
 
 
             <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef> No. </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_eval_id}} </td>
             </ng-container>
 
             <ng-container matColumnDef="approved_status">
-              <th mat-header-cell *matHeaderCellDef> Approved Status </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Approved Status </th>
               <td mat-cell *matCellDef="let element"> {{element.approved_status}} </td>
             </ng-container>
 
             <ng-container matColumnDef="subject_number">
-              <th mat-header-cell *matHeaderCellDef> Subject Number </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Subject Number </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.subject_number}} </td>
             </ng-container>
             <ng-container matColumnDef="title">
-              <th mat-header-cell *matHeaderCellDef> Transfer Course Title </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Transfer Course Title </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.title}} </td>
             </ng-container>
 
             <ng-container matColumnDef="school_name">
-              <th mat-header-cell *matHeaderCellDef> School Name </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> School Name </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.school_id.school_name}} </td>
             </ng-container>
             <ng-container matColumnDef="school_state">
-              <th mat-header-cell *matHeaderCellDef> School State </th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> School State </th>
               <td mat-cell *matCellDef="let element"> {{element.transfer_course_id.school_id.state_name}} </td>
             </ng-container>
             <ng-container matColumnDef="major_description">
-              <th mat-header-cell *matHeaderCellDef>Major Description</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Major Description</th>
               <td mat-cell *matCellDef="let element"> {{element.major_req_id.description}} </td>
             </ng-container>
             <ng-container matColumnDef="major_name">
-              <th mat-header-cell *matHeaderCellDef>Major Name</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Major Name</th>
               <td mat-cell *matCellDef="let element"> {{element.major_req_id.major_id.major_name}} </td>
             </ng-container>
             <ng-container matColumnDef="approver_name">
-              <th mat-header-cell *matHeaderCellDef>Approver Name</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver Name</th>
               <td mat-cell *matCellDef="let element"> {{element.approver_id.approver_name}} </td>
             </ng-container>
             <ng-container matColumnDef="delete">
