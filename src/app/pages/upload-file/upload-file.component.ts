@@ -70,6 +70,7 @@ export class UploadFileComponent implements OnInit {
     } else {
       this.dataService.append_more_excel_Data(formData).subscribe(res => {
         this.showSpinner = false;
+        this.isNewImport = false;
         this.toastr.success('File Uploaded Successfully');
         this.uploadFileInput.nativeElement.value = '';
         this.fileInputLabel = undefined;

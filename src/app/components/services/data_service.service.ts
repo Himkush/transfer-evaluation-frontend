@@ -32,6 +32,12 @@ export class DataService {
   get_distinctschool() {
     return this.http.get<Schools[]>(this.api_url + '/distinctschool/');
   }
+  get_distinctmajorwrtschool(slug) {
+    return this.http.get<Major[]>(this.api_url + '/majorwrtschool/' + slug + '/');
+  }
+  get_distinctschoolwrtmajor(slug) {
+    return this.http.get<Major[]>(this.api_url + '/schoolwrtmajor/' + slug + '/');
+  }
   get_majors() {
     return this.http.get<Majors[]>(this.api_url + '/majors/');
   }

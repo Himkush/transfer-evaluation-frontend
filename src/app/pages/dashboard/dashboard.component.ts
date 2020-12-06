@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   schoolOptions = ['All'];
   stateOptions = ['All'];
 
-  displayedColumns = ['id', 'approved_status', 'subject_number', 'title', 'school_name', 'school_state', 'major_description', 'major_name', 'approver_name', 'delete'];
+  displayedColumns = ['id', 'approved_status', 'subject_number', 'title', 'school_name', 'school_state', 'major_description', 'major_name', 'approver_name', 'update', 'delete'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -94,6 +94,34 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+  onSchoolSelectionChanged(event) {
+    this.majorOptions = ['All'];
+    if (event.option.value === 'All') {
+      this.dataService.get_distinctmajor().subscribe(data => {
+        data.map(i => this.majorOptions.push(i['major_name']));
+      });
+    } else {
+      this.dataService.get_distinctmajorwrtschool(event.option.value).subscribe(data => {
+        data.map(i => this.majorOptions.push(i['major_name']));
+      })
+    }
+    this.filteredMajor = of(this.majorOptions);
+  }
+
+  onMajorSelectionChanged(event) {
+    this.schoolOptions = ['All'];
+    if (event.option.value === 'All') {
+      this.dataService.get_distinctschool().subscribe(data => {
+        data.map(i => this.schoolOptions.push(i['school_name']));
+      });
+    } else {
+      this.dataService.get_distinctschoolwrtmajor(event.option.value).subscribe(data => {
+        data.map(i => this.schoolOptions.push(i['school_name']));
+      })
+    }
+    this.filteredSchool = of(this.schoolOptions);
+
+  }
 
   inputControl(event, options, field) {
     setTimeout(() => {
@@ -143,6 +171,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         default: return item[property];
       }
     }
+  }
+
+  onUpdate() {
+
   }
 
   public updateOptions() {

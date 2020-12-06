@@ -14,7 +14,7 @@
                   <mat-form-field class="example-full-width">
                     <mat-label>Major</mat-label>
                     <input type="text" (blur)="inputControl($event, majorOptions, majorField)" matInput [formControl]="majorField" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete">
+                    <mat-autocomplete (optionSelected)="onMajorSelectionChanged($event)" #auto="matAutocomplete">
                       <mat-option *ngFor="let option of filteredMajor | async" [value]="option">
                         {{option }}
                       </mat-option>
@@ -24,8 +24,8 @@
                 <div class="col-sm-4">
                   <mat-form-field class="example-full-width">
                     <mat-label>School</mat-label>
-                    <input type="text" (blur)="inputControl($event, schoolOptions,schoolField)" matInput [formControl]="schoolField" [matAutocomplete]="autoSchool">
-                    <mat-autocomplete #autoSchool="matAutocomplete">
+                    <input type="text"(blur)="inputControl($event, schoolOptions,schoolField)" matInput [formControl]="schoolField" [matAutocomplete]="autoSchool">
+                    <mat-autocomplete (optionSelected)="onSchoolSelectionChanged($event)"   #autoSchool="matAutocomplete">
                       <mat-option *ngFor="let o of filteredSchool | async" [value]="o">
                         {{o }}
                       </mat-option>
@@ -103,9 +103,12 @@
               <th mat-header-cell *matHeaderCellDef>Delete</th>
               <td mat-cell *matCellDef="let element"> <button class="btn btn-danger" (click)="onDelete(element)">Delete</button> </td>
             </ng-container>
-
-
-
+            
+            <ng-container matColumnDef="update">
+              <th mat-header-cell *matHeaderCellDef>Update</th>
+              <td mat-cell *matCellDef="let element"> <button class="btn btn-warning" (click)="onUpdate(element)">Update</button>
+              </td>
+            </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
