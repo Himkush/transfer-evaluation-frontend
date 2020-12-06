@@ -21,9 +21,9 @@ export class AddNewOptionsComponent implements OnInit {
   update_majorReq = false;
   update_transferCourse = false;
 
-  major_name = new FormControl(null, Validators.required);
-  school_name = new FormControl(null, Validators.required);
-  approver_name = new FormControl(null, Validators.required);
+  major_name = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
+  school_name = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
+  approver_name = new FormControl(null, [Validators.required, Validators.maxLength(20)]);
 
   updated_majorField = new FormControl(null, Validators.required);
   updated_schoolGroup: FormGroup;
@@ -104,7 +104,7 @@ export class AddNewOptionsComponent implements OnInit {
   }
   add_approvers() {
     if (this.approver_name.valid && this.approver_name.value) {
-      this.dataService.post_school_data({'approver_name': this.approver_name.value})
+      this.dataService.post_approver_data({'approver_name': this.approver_name.value})
         .subscribe(res => {
           this.toastr.success('Successfully Added!');
           this.router.navigateByUrl('/addTables');

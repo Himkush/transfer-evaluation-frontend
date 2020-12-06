@@ -1,24 +1,24 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from './../../components/services/data_service.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ToastrService } from 'ngx-toastr';
+import { DataService } from 'src/app/components/services/data_service.service';
 
 @Component({
-  selector: 'app-add-tables',
-  templateUrl: './add-tables.component.html',
-  styleUrls: ['./add-tables.component.css']
+  selector: 'app-update-table',
+  templateUrl: './update-table.component.html',
+  styleUrls: ['./update-table.component.css']
 })
-export class AddTablesComponent implements OnInit {
+export class UpdateTableComponent implements OnInit {
 
   addTransferEvaluation;
-  majorField = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
-  transferCourseSubject = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
-  transferCourseTitle = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
-  approversName = new FormControl(null, [Validators.required, Validators.maxLength(20)]);
-  schoolField = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
+  majorField = new FormControl(null, Validators.required);
+  transferCourseSubject = new FormControl(null, Validators.required);
+  transferCourseTitle = new FormControl(null, Validators.required);
+  approversName = new FormControl(null, Validators.required);
+  schoolField = new FormControl(null, Validators.required);
   filteredMajor: Observable<string[]>;
   filteredSchool: Observable<string[]>;
   filteredTransferCourseSubject: Observable<string[]>;
@@ -29,21 +29,16 @@ export class AddTablesComponent implements OnInit {
   courseSubjectOptions = [];
   courseTitleOptions = [];
   approverNameOptions = [];
-  sem_year_taken = new FormControl(null, [Validators.required, Validators.maxLength(20)]);
-  unhm_equivalent = new FormControl(null, [Validators.required, Validators.maxLength(20)]);
+  sem_year_taken = new FormControl(null, Validators.required);
+  unhm_equivalent = new FormControl(null, Validators.required);
   approved_status = new FormControl('Yes', Validators.required);
   expiration_date = new FormControl(null, Validators.required);
-  notes = new FormControl(null, Validators.required);
   isUpdate = false;
 
   constructor(private dataService: DataService,
               private route: Router,
               private activatedRoute: ActivatedRoute,
-              private toastr: ToastrService) {
-                 this.activatedRoute.queryParams.subscribe(params => {
-                      this.isUpdate = params['update'] === 'true';
-                  });
-              }
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     const oldTableData = this.dataService.transferTableData;
@@ -51,16 +46,15 @@ export class AddTablesComponent implements OnInit {
       if (!oldTableData) {
         this.route.navigateByUrl('addTables');
       } else {
-        this.majorField.setValue(oldTableData.major_name);
-        this.schoolField.setValue(oldTableData.school_name);
-        this.sem_year_taken.setValue(oldTableData.sem_or_year_taken);
-        this.transferCourseSubject.setValue(oldTableData.transfer_subject_number);
-        this.transferCourseTitle.setValue(oldTableData.transfer_course_title);
+        this.majorField.setValue(oldTableData.majorField);
+        this.schoolField.setValue(oldTableData.schoolField);
+        this.sem_year_taken.setValue(oldTableData.sem_year_taken);
+        this.transferCourseSubject.setValue(oldTableData.transferCourseSubject);
+        this.transferCourseTitle.setValue(oldTableData.transferCourseTitle);
         this.unhm_equivalent.setValue(oldTableData.unhm_equivalent);
         this.approved_status.setValue(oldTableData.approved_status);
         this.approversName.setValue(oldTableData.approver_name);
         this.expiration_date.setValue(oldTableData.expiration_date);
-        this.notes.setValue(oldTableData.notes)
       }
     }
     this.addTransferEvaluation =  new FormGroup({
@@ -72,8 +66,7 @@ export class AddTablesComponent implements OnInit {
       'unhm_equivalent': this.unhm_equivalent,
       'approved_status': this.approved_status,
       'approver_name': this.approversName,
-      'expiration_date': this.expiration_date,
-      'notes': this.notes
+      'expiration_date': this.expiration_date
     });
     this.dataService.get_distinctmajor().subscribe(data => {
       data.map(i => this.majorOptions.push(i['major_name']));
@@ -112,39 +105,12 @@ export class AddTablesComponent implements OnInit {
       );
     });
   }
-
   onSubmit() {
+    console.log(this.addTransferEvaluation.value);
     if (this.addTransferEvaluation.valid) {
-      const form_data = this.addTransferEvaluation.value;
-      const data = {
-          'major_name': form_data.majorField,
-          'school_name': form_data.schoolField,
-          'transfer_subject_number': form_data.transferCourseSubject,
-          'transfer_course_title': form_data.transferCourseTitle,
-          'unhm_equivalent': form_data.unhm_equivalent,
-          'approver_name': form_data.approver_name,
-          'approved_status': form_data.approved_status,
-          'sem_or_year_taken': form_data.sem_year_taken,
-          'expiration_date': form_data.expiration_date,
-          'notes': form_data.notes
-      }
-      if (this.isUpdate && this.dataService.transferTableData) {
-        this.dataService.update_checktransferevaluation(this.dataService.transferTableData.check_eval_id,
-          {check_eval_id: this.dataService.transferTableData.check_eval_id, ...data}).subscribe(res => {
-          this.dataService.transferTableData = res;
-          this.route.navigateByUrl('/checktransferevaluation');
-        }, err => {
-          this.toastr.error('Some Error Occurred!');
-        });
-      } else {
-          this.dataService.post_checktransferevaluation(data).subscribe(res => {
-          this.dataService.transferTableData = res;
-          this.route.navigateByUrl('/checktransferevaluation');
-        }, err => {
-          this.toastr.error('Some Error Occurred!');
-        });
-      }
-
+      console.log(this.addTransferEvaluation.value);
+      this.dataService.transferTableData = this.addTransferEvaluation.value;
+      this.route.navigateByUrl('/checktransferevaluation');
     } else {
       this.addTransferEvaluation.markAllAsTouched();
       this.toastr.error('Please check all fields are correct', 'Form Error', {
@@ -153,7 +119,6 @@ export class AddTablesComponent implements OnInit {
         });
     }
   }
-
   inputControl(event, options, field) {
     setTimeout(() => {
         let isValueTrue = options.filter(myAlias => {
@@ -164,7 +129,7 @@ export class AddTablesComponent implements OnInit {
         }
     }, 300);
   }
-   private _filter(value: string, options): string[] {
+  private _filter(value: string, options): string[] {
     const filterValue = value.toLowerCase();
     return options.filter(option => {
       return option ? option.toLowerCase().indexOf(filterValue) === 0 : null;

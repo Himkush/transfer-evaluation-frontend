@@ -17,22 +17,18 @@
           </div>
         </div>
         <div class="card-body">
-          <form [formGroup]= "addTransferEvaluation" (ngSubmit)="onSubmit()">
+          <form [formGroup]="addTransferEvaluation" (ngSubmit)="onSubmit()">
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">Sem Year Taken</label>
-                    <input formControlName="sem_year_taken" type="text" id="input-username" class="form-control form-control-alternative"
-                      placeholder="Sem Year Taken">
+                    <input formControlName="sem_year_taken" type="text" id="input-username"
+                      class="form-control form-control-alternative" placeholder="Sem Year Taken">
                     <div class="some-slass">
                       <p class="small text-danger"
                         *ngIf="addTransferEvaluation.get('sem_year_taken').hasError('required') && addTransferEvaluation.get('sem_year_taken').touched">
                         * Sem year Taken is Required
-                      </p>
-                      <p class="small text-danger"
-                        *ngIf="addTransferEvaluation.get('sem_year_taken').hasError('maxlength') && addTransferEvaluation.get('sem_year_taken').touched">
-                        * Maxlength is 30!
                       </p>
                     </div>
                   </div>
@@ -40,8 +36,8 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-email">Expiration Date</label>
-                    <input type="date" formControlName="expiration_date" id="input-email" class="form-control form-control-alternative"
-                      placeholder="">
+                    <input type="date" formControlName="expiration_date" id="input-email"
+                      class="form-control form-control-alternative" placeholder="">
                   </div>
                   <div class="some-slass">
                     <p class="small text-danger"
@@ -56,7 +52,8 @@
                   <div class="form-group">
                     <mat-form-field class="example-full-width">
                       <mat-label> Major</mat-label>
-                      <input type="text"  matInput [formControl]="majorField" (blur)="inputControl($event, majorOptions, majorField)" [matAutocomplete]="auto">
+                      <input type="text" matInput [formControl]="majorField"
+                        (blur)="inputControl($event, majorOptions, majorField)" [matAutocomplete]="auto">
                       <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let option of filteredMajor | async" [value]="option">
                           {{option }}
@@ -71,18 +68,14 @@
                         *ngIf="addTransferEvaluation.get('majorField').hasError('required') && addTransferEvaluation.get('majorField').touched">
                         * Major is Required
                       </p>
-                      <p class="small text-danger"
-                        *ngIf="addTransferEvaluation.get('majorField').hasError('maxlength') && addTransferEvaluation.get('majorField').touched">
-                        * Major max length is 30
-                      </p>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>School</mat-label>
-                    <input type="text"  matInput [formControl]="schoolField" (blur)="inputControl($event, schoolOptions, schoolField)"
-                      [matAutocomplete]="autoSchool">
+                    <input type="text" matInput [formControl]="schoolField"
+                      (blur)="inputControl($event, schoolOptions, schoolField)" [matAutocomplete]="autoSchool">
                     <mat-autocomplete #autoSchool="matAutocomplete">
                       <mat-option *ngFor="let o of filteredSchool | async" [value]="o">
                         {{o }}
@@ -97,10 +90,6 @@
                       *ngIf="addTransferEvaluation.get('schoolField').hasError('required') && addTransferEvaluation.get('schoolField').touched">
                       * School is Required
                     </p>
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('schoolField').hasError('maxlength') && addTransferEvaluation.get('schoolField').touched">
-                      * School maxlength is 30.
-                    </p>
                   </div>
                 </div>
               </div>
@@ -108,14 +97,15 @@
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>Transfer Course Title</mat-label>
-                    <input type="text" matInput [formControl]="transferCourseTitle" (blur)="inputControl($event, courseTitleOptions, transferCourseTitle)"
+                    <input type="text" matInput [formControl]="transferCourseTitle"
+                      (blur)="inputControl($event, courseTitleOptions, transferCourseTitle)"
                       [matAutocomplete]="autoCourseTitle">
                     <mat-autocomplete #autoCourseTitle="matAutocomplete">
                       <mat-option *ngFor="let o of filteredTransferCourseTitle | async" [value]="o">
                         {{o }}
                       </mat-option>
                       <mat-option>
-                        <a >Add More Transfer Course Title</a>
+                        <a>Add More Transfer Course Title</a>
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>
@@ -124,17 +114,13 @@
                       *ngIf="addTransferEvaluation.get('transferCourseTitle').hasError('required') && addTransferEvaluation.get('transferCourseTitle').dirty">
                       * Transfer Course Title is Required
                     </p>
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('transferCourseTitle').hasError('maxlength') && addTransferEvaluation.get('transferCourseTitle').dirty">
-                      * Transfer Course Title maxlength is 30.
-                    </p>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
                     <mat-label>Transfer Course Subject</mat-label>
-                    <input type="text" matInput
-                      [formControl]="transferCourseSubject" [matAutocomplete]="autoCourseSubject">
+                    <input type="text" matInput [formControl]="transferCourseSubject"
+                      [matAutocomplete]="autoCourseSubject">
                     <mat-autocomplete #autoCourseSubject="matAutocomplete">
                       <mat-option *ngFor="let o of filteredTransferCourseSubject | async" [value]="o">
                         {{o }}
@@ -148,10 +134,6 @@
                     <p class="small text-danger"
                       *ngIf="addTransferEvaluation.get('transferCourseSubject').hasError('required') && addTransferEvaluation.get('transferCourseSubject').dirty">
                       * Transfer Course Subject is Required
-                    </p>
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('transferCourseSubject').hasError('maxlength') && addTransferEvaluation.get('transferCourseSubject').dirty">
-                      * Transfer Course Subject maxlength is 30
                     </p>
                   </div>
                 </div>
@@ -176,10 +158,6 @@
                       *ngIf="addTransferEvaluation.get('approver_name').hasError('required') && addTransferEvaluation.get('approver_name').touched">
                       * Approver Name is Required
                     </p>
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('approver_name').hasError('maxlength') && addTransferEvaluation.get('approver_name').touched">
-                      * Approver Name maxlength is Required
-                    </p>
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -202,30 +180,13 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="unhm_equivalent">UNHM Equivalent</label>
-                    <input formControlName="unhm_equivalent" type="text" id="unhm_equivalent" class="form-control form-control-alternative"
-                      placeholder="UNHM Equivalent">
+                    <input formControlName="unhm_equivalent" type="text" id="unhm_equivalent"
+                      class="form-control form-control-alternative" placeholder="UNHM Equivalent">
                   </div>
                   <div class="some-slass">
                     <p class="small text-danger"
                       *ngIf="addTransferEvaluation.get('unhm_equivalent').hasError('required') && addTransferEvaluation.get('unhm_equivalent').touched">
                       * UNHM Equivalent is Required
-                    </p>
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('unhm_equivalent').hasError('maxlength') && addTransferEvaluation.get('unhm_equivalent').touched">
-                      * UNHM Equivalent maxlength is 20!
-                    </p>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-control-label" for="notes">Notes</label>
-                    <input formControlName="notes" type="text" id="notes"
-                      class="form-control form-control-alternative" placeholder="Notes">
-                  </div>
-                  <div class="some-slass">
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('notes').hasError('required') && addTransferEvaluation.get('notes').touched">
-                      * Notes is Required
                     </p>
                   </div>
                 </div>

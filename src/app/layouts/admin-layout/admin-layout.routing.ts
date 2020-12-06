@@ -1,3 +1,5 @@
+import { RemoveUploadedFileComponent } from './../../pages/remove-uploaded-file/remove-uploaded-file.component';
+import { UploadFileComponent } from '../../pages/upload-file/upload-file.component';
 import { ListOptionsTableComponent } from './../../pages/list-options-table/list-options-table.component';
 import { AddTablesComponent } from './../../pages/add-tables/add-tables.component';
 import { AuthGaurd } from './../../components/gaurds/authGaurd.gaurd';
@@ -12,5 +14,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'addTables', component: AddTablesComponent, canActivate: [AuthGaurd] },
     { path: 'checktransferevaluation', component: CheckTransferEvaluationComponent, canActivate: [AuthGaurd]},
     { path: 'add-new-options', component: AddNewOptionsComponent, canActivate: [AuthGaurd]},
-    { path: 'list-table-options', component: ListOptionsTableComponent, canActivate: [AuthGaurd]}
+    { path: 'list-table-options', component: ListOptionsTableComponent, canActivate: [AuthGaurd]},
+    {path: 'upload-data', component: UploadFileComponent, canActivate: [AuthGaurd]},
+    {path: 'remove-uploaded-data', component: RemoveUploadedFileComponent, canActivate: [AuthGaurd]}
 ];

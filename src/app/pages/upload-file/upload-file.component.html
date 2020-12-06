@@ -1,0 +1,46 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="min-height: 100px; background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+
+    <div class="col-xl-10 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-4 text-right">
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="fileUploadForm" (submit)="onFormSubmit()">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <input type="file" (change)="onFileSelect($event)" name="myFile" class="form-control" placeholder="Upload File">
+                </div>
+                <div class="some-slass">
+                  <p class="small text-danger" *ngIf="!isFileUploaded && fileUploadForm.dirty">
+                    * File is Required
+                  </p>
+                </div>
+              </div>
+              <div class="col-4">
+                <button type="submit"  class="btn btn-primary">
+                  {{isNewImport ? 'Import New Data' : 'Import More Data'}}
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="showSpinner" class="loader">Loading...</div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

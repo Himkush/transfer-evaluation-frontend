@@ -37,9 +37,12 @@ export class CheckTransferEvaluationComponent implements OnInit {
       'approver_name': this.transferEvaluationData.approver_name,
       'approved_status': this.transferEvaluationData.approved_status,
       'sem_or_year_taken': this.transferEvaluationData.sem_year_taken,
-      'expiration_data': this.transferEvaluationData.expiration_date
+      'expiration_date': this.transferEvaluationData.expiration_date,
+      'notes': this.transferEvaluationData.notes,
+      'check_eval_id': this.transferEvaluationData.check_eval_id
     }
-    this.dataService.post_checktransferevaluation(data).subscribe(res => {
+    this.dataService.post_postchecktransferevaluation(this.dataService.transferTableData.check_eval_id, data).subscribe(res => {
+      this.transferEvaluationData = {};
       this.toastr.success('Successfully Submited');
       this.route.navigateByUrl('/dashboard');
     }, err => {

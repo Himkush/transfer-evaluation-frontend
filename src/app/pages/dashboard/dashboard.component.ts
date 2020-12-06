@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public updateOptions() {
   }
 
-   private _filter(value: string, options): string[] {
+  private _filter(value: string, options): string[] {
     const filterValue = value.toLowerCase();
     return options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }

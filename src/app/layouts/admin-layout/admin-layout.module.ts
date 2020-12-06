@@ -25,6 +25,9 @@ import { CheckTransferEvaluationComponent } from '../../pages/check-transfer-eva
 import { AddNewOptionsComponent } from '../../pages/add-new-options/add-new-options.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
+import { UpdateTableComponent } from '../../pages/update-table/update-table.component';
+import { UploadFileComponent } from 'src/app/pages/upload-file/upload-file.component';
+import { RemoveUploadedFileComponent } from '../../pages/remove-uploaded-file/remove-uploaded-file.component';
 
 @NgModule({
   imports: [
@@ -50,7 +53,10 @@ import {MatTabsModule} from '@angular/material/tabs';
     DeleteDialogComponent,
     AddNewOptionsComponent,
     DeleteOptionsDialogComponent,
-    ListOptionsTableComponent
+    ListOptionsTableComponent,
+    UpdateTableComponent,
+    UploadFileComponent,
+    RemoveUploadedFileComponent
   ],
   providers: [DataService],
   entryComponents: []

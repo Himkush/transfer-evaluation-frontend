@@ -17,6 +17,9 @@ export class DataService {
   public majorReqData = null;
   constructor(private http: HttpClient) {
   }
+  check_data_existence(){
+    return this.http.get<any>(this.api_url + '/checkdataexistence');
+  }
   get_table_data() {
     return this.http.get<any[]>(this.api_url + '/transferevaluation/');
   }
@@ -52,6 +55,12 @@ export class DataService {
   post_checktransferevaluation(data) {
     return this.http.post(this.api_url + '/checktransferevaluation/', data);
   }
+  update_checktransferevaluation(id, data) {
+    return this.http.put(this.api_url + '/checktransferevaluation/' + id + '/', data);
+  }
+  post_postchecktransferevaluation(id, data) {
+    return this.http.post(this.api_url + '/postchecktransferevaluation/' + id + '/', data)
+  }
   post_major_data(data) {
     return this.http.post(this.api_url + '/majors/', data);
   }
@@ -68,16 +77,20 @@ export class DataService {
     return this.http.delete(this.api_url + '/transferevaluation/' + id + '/');
   }
   delete_approver_item(id) {
-    return this.http.delete(this.api_url + '/approvers/' + id + '/')
+    return this.http.delete(this.api_url + '/approvers/' + id + '/');
   }
   delete_major_item(id) {
-    return this.http.delete(this.api_url + '/majors/' + id + '/')
+    return this.http.delete(this.api_url + '/majors/' + id + '/');
   }
   delete_majorReq_item(id) {
-    return this.http.delete(this.api_url + '/majorrequirement/' + id + '/')
+    return this.http.delete(this.api_url + '/majorrequirement/' + id + '/');
   }
   delete_transfercourse_item(id) {
-    return this.http.delete(this.api_url + '/transfercourse/' + id + '/')
+    return this.http.delete(this.api_url + '/transfercourse/' + id + '/');
+  }
+
+  remove_uploaded_data() {
+    return this.http.post(this.api_url + '/removeuploadedfile/', '' );
   }
   update_major_data(id, data) {
     return this.http.put(this.api_url + '/majors/' + id  + '/', data);
@@ -93,5 +106,11 @@ export class DataService {
   }
   update_transfercourse_data(id, data) {
     return this.http.put(this.api_url + '/transfercourse/' + id + '/', data);
+  }
+  upload_excel_data(data) {
+    return this.http.post(this.api_url + '/uploadfile/', data);
+  }
+  append_more_excel_Data(data) {
+    return this.http.post(this.api_url + '/moredatauploadfile/', data);
   }
 }

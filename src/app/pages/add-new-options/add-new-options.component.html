@@ -27,6 +27,9 @@
                   *ngIf="major_name.hasError('required') && major_name.touched">
                   * Major Name is Required
                 </p>
+                <p class="small text-danger" *ngIf="major_name.hasError('maxlength') && major_name.touched">
+                  * Major Name length should be less than 30!
+                </p>
               </div>
             </div>
             <div class="col-4">
@@ -44,6 +47,9 @@
                 <p class="small text-danger" *ngIf="approver_name.hasError('required') && approver_name.touched">
                   * Approver Name is Required
                 </p>
+                <p class="small text-danger" *ngIf="approver_name.hasError('maxlength') && approver_name.touched">
+                  * Approver Name length should be less than 20.
+                </p>
               </div>
             </div>
             <div class="col-4">
@@ -60,6 +66,9 @@
               <div class="some-slass">
                 <p class="small text-danger" *ngIf="school_name.hasError('required') && school_name.touched">
                   * School Name is Required
+                </p>
+                <p class="small text-danger" *ngIf="school_name.hasError('maxlength') && school_name.touched">
+                  * School Name length should be less than 30.
                 </p>
               </div>
             </div>
