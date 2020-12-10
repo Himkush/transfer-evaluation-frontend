@@ -140,7 +140,7 @@
                         {{o }}
                       </mat-option>
                       <mat-option>
-                        <a>Add More Transfer Course Subject</a>
+                        <a [routerLink]="['/add-new-options']" [queryParams]="{'transfer_course': true}">Add More Transfer Course Subject</a>
                       </mat-option>
                     </mat-autocomplete>
                   </mat-form-field>

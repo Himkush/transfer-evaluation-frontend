@@ -47,112 +47,64 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <mat-form-field class="example-full-width">
-                      <mat-label> Major</mat-label>
-                      <input type="text" matInput [formControl]="majorField"
-                        (blur)="inputControl($event, majorOptions, majorField)" [matAutocomplete]="auto">
-                      <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of filteredMajor | async" [value]="option">
-                          {{option }}
-                        </mat-option>
-                        <mat-option>
-                          <a [routerLink]="['/add-new-options']" [queryParams]="{'major': true}">Add More Majors</a>
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
-                    <div class="some-slass">
-                      <p class="small text-danger"
-                        *ngIf="addTransferEvaluation.get('majorField').hasError('required') && addTransferEvaluation.get('majorField').touched">
-                        * Major is Required
-                      </p>
-                    </div>
+                    <label class="form-control-label" for="input-transfer-course-id">Transfer Course Id</label>
+                    <select id="input-transfer-course-id" (change)="onTransferCourseChange($event)" class="form-control" formControlName="approver_id">
+                      <option *ngFor="let data of transferCourseOptions; let i = index" [value]="data.transfer_course_id" [selected]="data.transfer_course_id === updateTableData.transfer_course_id.transfer_course_id">
+                        {{data.transfer_course_id}}</option>
+                    </select>
                   </div>
                 </div>
                 <div class="col-lg-6">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>School</mat-label>
-                    <input type="text" matInput [formControl]="schoolField"
-                      (blur)="inputControl($event, schoolOptions, schoolField)" [matAutocomplete]="autoSchool">
-                    <mat-autocomplete #autoSchool="matAutocomplete">
-                      <mat-option *ngFor="let o of filteredSchool | async" [value]="o">
-                        {{o }}
-                      </mat-option>
-                      <mat-option>
-                        <a [routerLink]="['/add-new-options']" [queryParams]="{'school': true}">Add More Schools</a>
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                  <div class="some-slass">
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('schoolField').hasError('required') && addTransferEvaluation.get('schoolField').touched">
-                      * School is Required
-                    </p>
-                  </div>
+                  <label class="form-control-label">Transfer Course Subject</label>
+                  <input type="text" class="form-control form-control-alternative" disabled [formControl]="transferCourseSubject">
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Transfer Course Title</mat-label>
-                    <input type="text" matInput [formControl]="transferCourseTitle"
-                      (blur)="inputControl($event, courseTitleOptions, transferCourseTitle)"
-                      [matAutocomplete]="autoCourseTitle">
-                    <mat-autocomplete #autoCourseTitle="matAutocomplete">
-                      <mat-option *ngFor="let o of filteredTransferCourseTitle | async" [value]="o">
-                        {{o }}
-                      </mat-option>
-                      <mat-option>
-                        <a>Add More Transfer Course Title</a>
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                  <div class="some-slass">
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('transferCourseTitle').hasError('required') && addTransferEvaluation.get('transferCourseTitle').dirty">
-                      * Transfer Course Title is Required
-                    </p>
-                  </div>
+                  <label class="form-control-label">Transfer Course Title</label>
+                  <input type="text" class="form-control form-control-alternative" disabled [formControl]="transferCourseTitle">
                 </div>
                 <div class="col-lg-6">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Transfer Course Subject</mat-label>
-                    <input type="text" matInput [formControl]="transferCourseSubject"
-                      [matAutocomplete]="autoCourseSubject">
-                    <mat-autocomplete #autoCourseSubject="matAutocomplete">
-                      <mat-option *ngFor="let o of filteredTransferCourseSubject | async" [value]="o">
-                        {{o }}
-                      </mat-option>
-                      <mat-option>
-                        <a>Add More Transfer Course Subject</a>
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
-                  <div class="some-slass">
-                    <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('transferCourseSubject').hasError('required') && addTransferEvaluation.get('transferCourseSubject').dirty">
-                      * Transfer Course Subject is Required
-                    </p>
-                  </div>
+                  <label class="form-control-label">School Name</label>
+                  <input type="text" disabled class="form-control form-control-alternative" [formControl]="schoolField">
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Approver Name</mat-label>
-                    <input type="text" matInput (blur)="inputControl($event, approverNameOptions, approversName)"
-                      [formControl]="approversName" [matAutocomplete]="autoApproveName">
-                    <mat-autocomplete #autoApproveName="matAutocomplete">
-                      <mat-option *ngFor="let o of filteredApproversName | async" [value]="o">
-                        {{o }}
-                      </mat-option>
-                      <mat-option>
-                        <a [routerLink]="['/add-new-options']" [queryParams]="{'approver': true}">Add More Approver</a>
-                      </mat-option>
-                    </mat-autocomplete>
-                  </mat-form-field>
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-transfer-course-id">Major Req Id</label>
+                    <select id="input-transfer-course-id" (change)="onMajorReqIdChange($event)" class="form-control" formControlName="major_req_id">
+                      <option *ngFor="let data of majorReqOptions; let i = index" [value]="data.major_req_id" [selected]="data.major_req_id === updateTableData.major_req_id.major_req_id">
+                        {{data.major_req_id}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <label class="form-control-label">Major Name</label>
+                  <input type="text" class="form-control form-control-alternative" disabled formControlName="majorField">
+                </div>
+              </div>
+              <div class="row">
+
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-approved-id">Approver Id</label>
+                    <select id="input-approved-id" (change)="onApproverIdChange($event)" class="form-control" formControlName="approver_id">
+                      <option *ngFor="let data of approverOptions; let i = index" [value]="data.approver_id" [selected]="data.approver_id === updateTableData.approver_id.approver_id">
+                        {{data.approver_id}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <label class="form-control-label">Approver Name</label>
+                  <input type="text" class="form-control form-control-alternative" disabled [formControl]="approversName"
+                    placeholder="Approver Name">
                   <div class="some-slass">
                     <p class="small text-danger"
                       *ngIf="addTransferEvaluation.get('approver_name').hasError('required') && addTransferEvaluation.get('approver_name').touched">
@@ -160,12 +112,15 @@
                     </p>
                   </div>
                 </div>
+              </div>
+              <div class="row">
+
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="input-approved-status">Approved Status</label>
                     <select id="input-approved-status" class="form-control" formControlName="approved_status">
-                      <option value="Yes" selected>Yes</option>
-                      <option value="No">No</option>
+                      <option value="Yes" [selected]="updateTableData.approved_status && updateTableData.approved_status.toLowerCase()==='yes'">Yes</option>
+                      <option value="No" [selected]="updateTableData.approved_status && updateTableData.approved_status.toLowerCase()==='no'">No</option>
                     </select>
                   </div>
                   <div class="some-slass">
@@ -179,17 +134,18 @@
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="unhm_equivalent">UNHM Equivalent</label>
-                    <input formControlName="unhm_equivalent" type="text" id="unhm_equivalent"
-                      class="form-control form-control-alternative" placeholder="UNHM Equivalent">
+                    <label class="form-control-label" for="notes">Notes</label>
+                    <input formControlName="notes" type="text" id="notes"
+                      class="form-control form-control-alternative" placeholder="Notes">
                   </div>
                   <div class="some-slass">
                     <p class="small text-danger"
-                      *ngIf="addTransferEvaluation.get('unhm_equivalent').hasError('required') && addTransferEvaluation.get('unhm_equivalent').touched">
-                      * UNHM Equivalent is Required
+                      *ngIf="addTransferEvaluation.get('notes').hasError('required') && addTransferEvaluation.get('notes').touched">
+                      * Notes is Required
                     </p>
                   </div>
                 </div>
+
               </div>
             </div>
 
@@ -197,7 +153,7 @@
             <!-- Description -->
             <div class="row">
               <div class="col-12 text-center">
-                <button type="submit" class="btn btn-success text-center">Next</button>
+                <button type="submit" class="btn btn-success text-center">Update</button>
               </div>
             </div>
 

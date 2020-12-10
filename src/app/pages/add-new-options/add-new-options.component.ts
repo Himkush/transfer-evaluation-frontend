@@ -14,16 +14,19 @@ export class AddNewOptionsComponent implements OnInit {
   show_major = false;
   show_school = false;
   show_approver = false;
+  show_transfer_course = false;
   is_update = false;
   update_approver = false;
   update_majors = false;
   update_schools = false;
   update_majorReq = false;
   update_transferCourse = false;
+  schoolData: any;
 
   major_name = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
   school_name = new FormControl(null, [Validators.required, Validators.maxLength(30)]);
   approver_name = new FormControl(null, [Validators.required, Validators.maxLength(20)]);
+  transfer_group: FormGroup;
 
   updated_majorField = new FormControl(null, Validators.required);
   updated_schoolGroup: FormGroup;
@@ -39,6 +42,7 @@ export class AddNewOptionsComponent implements OnInit {
                       this.show_major = params['major'] === 'true';
                       this.show_school = params['school'] === 'true';
                       this.show_approver = params['approver'] === 'true';
+                      this.show_transfer_course = params['transfer_course'] === 'true';
                       this.is_update = params['update'] === 'true';
                       this.update_approver = params['approvers'] === 'true';
                       this.update_majors = params['majors'] === 'true';
@@ -49,12 +53,25 @@ export class AddNewOptionsComponent implements OnInit {
                }
 
   ngOnInit(): void {
-    if (!(this.show_major || this.show_approver || this.show_school || this.is_update)) {
+    if (!(this.show_major || this.show_approver || this.show_school || this.show_transfer_course || this.is_update)) {
       this.router.navigateByUrl('/addTables');
     } else if (!(this.dataService.approversData || this .dataService.majorData
        || this.dataService.majorReqData || this.dataService.schoolData || this.dataService.approversData
-       || this.show_major || this.show_approver || this.show_school || this.is_update)) {
+       || this.show_major || this.show_approver || this.show_school || this.show_transfer_course || this.is_update)) {
       this.router.navigateByUrl('/list-table-options');
+    }
+    if (this.show_transfer_course) {
+      this.transfer_group = new FormGroup({
+            'subject_number': new FormControl(null, Validators.required),
+            'title': new FormControl(null, Validators.required),
+            'school_id': new FormControl('', Validators.required)
+      });
+      this.dataService.get_schools().subscribe(res => {
+        this.schoolData = res;
+        this.transfer_group.get('school_id').setValue(this.schoolData[0].school_id);
+      }, err => {
+        this.toastr.error('Some error occurred while loading school');
+      });
     }
     if (this.update_majors) {
       this.updated_majorField.setValue(this.dataService.majorData.major_name);
@@ -76,6 +93,11 @@ export class AddNewOptionsComponent implements OnInit {
         'title': new FormControl(this.dataService.transferCourseData.title, Validators.required),
         'school_id': new FormControl(this.dataService.transferCourseData.school_id, Validators.required)
       });
+      this.dataService.get_schools().subscribe(res => {
+        this.schoolData = res;
+      }, err => {
+        this.toastr.error('Some error occurred while loading school');
+      });
     }
   }
   add_major() {
@@ -88,6 +110,18 @@ export class AddNewOptionsComponent implements OnInit {
           err => {
             this.toastr.error('Some Error Occurred', 'Not added Successfully');
           });
+    }
+  }
+  add_transfer_course() {
+    if (this.transfer_group.valid) {
+      this.dataService.post_transfer_data(this.transfer_group.value).subscribe(res => {
+        this.toastr.success('Added Successfully');
+        this.router.navigateByUrl('/addTables');
+      }, err => {
+        this.toastr.error('Some Error Occurred', 'Not added Successfully');
+      });
+    } else {
+      this.transfer_group.markAllAsTouched();
     }
   }
   add_school() {
@@ -196,7 +230,7 @@ export class AddNewOptionsComponent implements OnInit {
         school_id: formValue.school_id
       }).subscribe(res => {
         this.toastr.success('Updated Successfully!');
-        this.router.navigate(['list-table-options', , {queryParams: {'table': 'transferCourse'}}]);
+        this.router.navigate(['list-table-options'], {queryParams: {'table': 'transferCourse'}});
       }, err => {
         this.toastr.error('Some Error Occurred!');
       })

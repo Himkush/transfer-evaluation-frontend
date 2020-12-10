@@ -14,26 +14,30 @@ import { DataService } from 'src/app/components/services/data_service.service';
 export class UpdateTableComponent implements OnInit {
 
   addTransferEvaluation;
-  majorField = new FormControl(null, Validators.required);
-  transferCourseSubject = new FormControl(null, Validators.required);
-  transferCourseTitle = new FormControl(null, Validators.required);
-  approversName = new FormControl(null, Validators.required);
-  schoolField = new FormControl(null, Validators.required);
-  filteredMajor: Observable<string[]>;
-  filteredSchool: Observable<string[]>;
-  filteredTransferCourseSubject: Observable<string[]>;
-  filteredTransferCourseTitle: Observable<string[]>;
-  filteredApproversName: Observable<string[]>;
+  majorField = new FormControl(null);
+  majorReqId = new FormControl(null);
+  transferCourseId = new FormControl(null);
+  transferCourseSubject = new FormControl(null);
+  transferCourseTitle = new FormControl(null);
+  approverId = new FormControl(null);
+  approversName = new FormControl(null);
+  schoolId = new FormControl(null);
+  schoolField = new FormControl(null);
+  sem_year_taken = new FormControl(null, Validators.required);
+  approved_status = new FormControl('Yes', Validators.required);
+  expiration_date = new FormControl(null, Validators.required);
+  notes = new FormControl(null, Validators.required);
+
   majorOptions = [];
   schoolOptions = [];
   courseSubjectOptions = [];
   courseTitleOptions = [];
-  approverNameOptions = [];
-  sem_year_taken = new FormControl(null, Validators.required);
-  unhm_equivalent = new FormControl(null, Validators.required);
-  approved_status = new FormControl('Yes', Validators.required);
-  expiration_date = new FormControl(null, Validators.required);
-  isUpdate = false;
+  approverOptions = [];
+  transferCourseOptions = [];
+  majorReqOptions = [];
+
+  isUpdate = true;
+  updateTableData = null;
 
   constructor(private dataService: DataService,
               private route: Router,
@@ -41,76 +45,87 @@ export class UpdateTableComponent implements OnInit {
               private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    const oldTableData = this.dataService.transferTableData;
+    const oldTableData = this.dataService.updateTableItem;
+    this.updateTableData = oldTableData;
     if (this.isUpdate) {
       if (!oldTableData) {
-        this.route.navigateByUrl('addTables');
+        this.route.navigateByUrl('dashboard');
       } else {
-        this.majorField.setValue(oldTableData.majorField);
-        this.schoolField.setValue(oldTableData.schoolField);
+        this.majorField.setValue(oldTableData.major_req_id.major_id.major_name);
+        this.majorReqId.setValue(oldTableData.major_req_id.major_req_id);
+        this.schoolField.setValue(oldTableData.transfer_course_id.school_id.school_name);
         this.sem_year_taken.setValue(oldTableData.sem_year_taken);
-        this.transferCourseSubject.setValue(oldTableData.transferCourseSubject);
-        this.transferCourseTitle.setValue(oldTableData.transferCourseTitle);
-        this.unhm_equivalent.setValue(oldTableData.unhm_equivalent);
-        this.approved_status.setValue(oldTableData.approved_status);
-        this.approversName.setValue(oldTableData.approver_name);
+        this.transferCourseId.setValue(oldTableData.transfer_course_id.transfer_course_id)
+        this.transferCourseSubject.setValue(oldTableData.transfer_course_id.subject_number);
+        this.transferCourseTitle.setValue(oldTableData.transfer_course_id.title);
+        this.notes.setValue(oldTableData.notes)
+        this.approved_status.setValue(this.toTitleCase(oldTableData.approved_status));
+        this.approverId.setValue(oldTableData.approver_id.approver_id)
+        this.approversName.setValue(oldTableData.approver_id.approver_name);
         this.expiration_date.setValue(oldTableData.expiration_date);
       }
     }
     this.addTransferEvaluation =  new FormGroup({
       'majorField': this.majorField,
       'schoolField': this.schoolField,
+      'major_req_id': this.majorReqId,
       'sem_year_taken': this.sem_year_taken,
+      'transfer_course_id': this.transferCourseId,
       'transferCourseSubject': this.transferCourseSubject,
       'transferCourseTitle': this.transferCourseTitle,
-      'unhm_equivalent': this.unhm_equivalent,
+      'approver_id': this.approverId,
       'approved_status': this.approved_status,
       'approver_name': this.approversName,
-      'expiration_date': this.expiration_date
+      'expiration_date': this.expiration_date,
+      'notes': this.notes
     });
     this.dataService.get_distinctmajor().subscribe(data => {
       data.map(i => this.majorOptions.push(i['major_name']));
-      this.filteredMajor = this.majorField.valueChanges.pipe(
-      startWith(''),
-      map(value => typeof value === 'string' ? value : value.name),
-      map(value => value ? this._filter(value, this.majorOptions) : this.majorOptions.slice())
-    );
     });
     this.dataService.get_distinctschool().subscribe(data => {
       data.map(i => this.schoolOptions.push(i['school_name']));
-      this.filteredSchool = this.schoolField.valueChanges.pipe(
-        startWith(''),
-        map(value => value ? this._filter(value, this.schoolOptions) : this.schoolOptions.slice())
-      );
     });
     this.dataService.get_transferCourse().subscribe(data => {
       data.map(i => {
         this.courseSubjectOptions.push(i['subject_number']);
         this.courseTitleOptions.push(i['title']);
       });
-      this.filteredTransferCourseSubject = this.transferCourseSubject.valueChanges.pipe(
-        startWith(''),
-        map(value => value ? this._filter(value, this.courseSubjectOptions) : this.courseSubjectOptions.slice() )
-      );
-      this.filteredTransferCourseTitle = this.transferCourseTitle.valueChanges.pipe(
-        startWith(''),
-        map(value => value ? this._filter(value, this.courseTitleOptions) : this.courseTitleOptions.slice())
-      );
     });
     this.dataService.get_approver_name().subscribe(data => {
-      data.map(i => this.approverNameOptions.push(i['approver_name']));
-      this.filteredApproversName = this.approversName.valueChanges.pipe(
-        startWith(''),
-        map(value => value ? this._filter(value, this.approverNameOptions) : this.approverNameOptions.slice())
-      );
+      data.map(i => this.approverOptions.push(i));
     });
+    this.dataService.get_transferCourse().subscribe(data => {
+      data.map(i => this.transferCourseOptions.push(i));
+    });
+    this.dataService.get_schools().subscribe(data => {
+      data.map(i => this.schoolOptions.push(i));
+    });
+    this.dataService.get_majorsReq().subscribe(data => {
+      data.map(i => {
+        this.majorReqOptions.push(i);
+        this.majorReqId.setValue(oldTableData.major_req_id.major_req_id);
+      });
+    })
+
   }
   onSubmit() {
-    console.log(this.addTransferEvaluation.value);
     if (this.addTransferEvaluation.valid) {
-      console.log(this.addTransferEvaluation.value);
-      this.dataService.transferTableData = this.addTransferEvaluation.value;
-      this.route.navigateByUrl('/checktransferevaluation');
+      const data = {
+        "transfer_course_id": +this.addTransferEvaluation.get('transfer_course_id').value,
+        "major_req_id": +this.addTransferEvaluation.get('major_req_id').value,
+        "sem_year_taken": this.addTransferEvaluation.get('sem_year_taken').value,
+        "expiration_date": this.addTransferEvaluation.get('expiration_date').value,
+        "approved_status": this.addTransferEvaluation.get('approved_status').value,
+        "approver_id": +this.addTransferEvaluation.get('approver_id').value,
+        "notes": this.addTransferEvaluation.get('notes').value,
+      }
+      this.dataService.update_table_item(this.updateTableData.transfer_eval_id, data).subscribe(res => {
+        this.toastr.success('Updated Successfully')
+        this.dataService.updateTableItem = null;
+        this.route.navigateByUrl('/dashboard');
+      }, err => {
+        this.toastr.error('Not updated! Error Occurred!')
+      })
     } else {
       this.addTransferEvaluation.markAllAsTouched();
       this.toastr.error('Please check all fields are correct', 'Form Error', {
@@ -119,21 +134,43 @@ export class UpdateTableComponent implements OnInit {
         });
     }
   }
-  inputControl(event, options, field) {
-    setTimeout(() => {
-        let isValueTrue = options.filter(myAlias => {
-              return myAlias ? myAlias.includes(event.target.value) : null;
-            });
-        if (isValueTrue && isValueTrue.length === 0) {
-            field.setValue(null);
-        }
-    }, 300);
+  onMajorReqIdChange(event) {
+    this.majorReqOptions.map(data => {
+      if(data.major_req_id === +event.target.value){
+        this.dataService.get_major_item(data.major_id).subscribe(res => {
+          this.majorField.setValue(res.major_name)
+        }, err => {
+          this.toastr.error('Some Error Occurred')
+        })
+      }
+    })
   }
-  private _filter(value: string, options): string[] {
-    const filterValue = value.toLowerCase();
-    return options.filter(option => {
-      return option ? option.toLowerCase().indexOf(filterValue) === 0 : null;
-    });
+  onTransferCourseChange(event) {
+    this.transferCourseOptions.map(data => {
+      if(data.transfer_course_id === +event.target.value){
+        this.transferCourseSubject.setValue(data.subject_number);
+        this.transferCourseTitle.setValue(data.title);
+        this.dataService.get_school_item(data.school_id).subscribe(res=> {
+          this.schoolField.setValue(res.school_name);
+        }, err => {
+          this.toastr.error('Some Error Occurred')
+        })
+      }
+    })
   }
-
+  onApproverIdChange(event) {
+    this.approverOptions.map(data => {
+      if(data.approver_id === +event.target.value) {
+        this.approversName.setValue(data.approver_name)
+      }
+    })
+  }
+  private toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
 }

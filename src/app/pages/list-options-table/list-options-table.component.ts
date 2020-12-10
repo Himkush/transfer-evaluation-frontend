@@ -40,7 +40,7 @@ export class ListOptionsTableComponent implements OnInit {
                         this.tabIndexValue = 2;
                       } else if (tabName === 'majorReq') {
                         this.tabIndexValue = 3;
-                      } else if(tabName === 'tranferCourse') {
+                      } else if(tabName === 'transferCourse') {
                         this.tabIndexValue = 4;
                       }
                   });

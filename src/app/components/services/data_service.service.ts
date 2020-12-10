@@ -15,6 +15,7 @@ export class DataService {
   public transferCourseData = null;
   public majorData = null;
   public majorReqData = null;
+  public updateTableItem = null;
   constructor(private http: HttpClient) {
   }
   check_data_existence(){
@@ -22,6 +23,9 @@ export class DataService {
   }
   get_table_data() {
     return this.http.get<any[]>(this.api_url + '/transferevaluation/');
+  }
+  update_table_item(id, data) {
+    return this.http.put<any[]>(this.api_url + '/transferevaluation/' + id + '/', data);
   }
   get_distinct_state() {
     return this.http.get<States[]>(this.api_url + '/distinctstate/');
@@ -41,8 +45,14 @@ export class DataService {
   get_majors() {
     return this.http.get<Majors[]>(this.api_url + '/majors/');
   }
+  get_major_item(id) {
+    return this.http.get<any>(this.api_url + '/majors/' + id + '/');
+  }
   get_schools() {
     return this.http.get<Schools[]>(this.api_url + '/schools/');
+  }
+  get_school_item(id) {
+    return this.http.get<any>(this.api_url + '/schools/' + id + '/');
   }
   get_majorsReq() {
     return this.http.get<MajorRequirement[]>(this.api_url + '/majorrequirement/');
@@ -77,7 +87,7 @@ export class DataService {
     return this.http.post(this.api_url + '/approvers/', data);
   }
   post_transfer_data(data) {
-    return this.http.post(this.api_url + '/approvers/', data);
+    return this.http.post(this.api_url + '/transfercourse/', data);
   }
   delete_transfer_data(id) {
     return this.http.delete(this.api_url + '/transferevaluation/' + id + '/');

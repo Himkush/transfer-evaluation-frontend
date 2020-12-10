@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Major } from '../../../model/common.model';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -41,6 +42,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   constructor(private dataService: DataService,
               private dialogService: MatDialog,
+              private route: Router,
               private toastr: ToastrService) {}
   ngOnInit() {
     this.searchForm = new FormGroup({
@@ -173,8 +175,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onUpdate() {
-
+  onUpdate(data) {
+    this.dataService.updateTableItem = data;
+    this.route.navigateByUrl('update-table-item');
   }
 
   public updateOptions() {

@@ -38,6 +38,46 @@
               </button>
             </div>
           </div>
+          <div class="row" *ngIf="show_transfer_course">
+            <form [formGroup]="transfer_group" (ngSubmit)="add_transfer_course()">
+              <div class="col-10">
+              <div class="form-group">
+                  <input type="text" formControlName="subject_number" class="form-control" placeholder="Enter Subject">
+                </div>
+                <div class="some-slass">
+                  <p class="small text-danger" *ngIf="transfer_group.get('subject_number').hasError('required') && transfer_group.get('subject_number').touched">
+                    * Subject Name is Required
+                  </p>
+                </div>
+                <div class="form-group">
+                  <input type="text" formControlName="title" class="form-control" placeholder="Enter Title">
+                </div>
+                <div class="some-slass">
+                  <p class="small text-danger"
+                    *ngIf="transfer_group.get('title').hasError('required') && transfer_group.get('title').touched">
+                    * Title is Required
+                  </p>
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label" for="input-school-id">School</label>
+                  <select id="input-school-id" class="form-control" formControlName="school_id">
+                    <option *ngFor="let data of schoolData; let i = index" [value]="data.school_id" [selected]="i==0">{{data.school_name}}</option>
+                  </select>
+                </div>
+                <div class="some-slass">
+                  <p class="small text-danger"
+                    *ngIf="transfer_group.get('title').hasError('required') && transfer_group.get('title').touched">
+                    * School is Required
+                  </p>
+                </div>
+              </div>
+              <div class="col-10 justify-center">
+                <button type="submit" class="btn btn-primary">
+                  Add Transfer Course
+                </button>
+              </div>
+            </form>
+          </div>
           <div class="row" *ngIf="show_approver">
             <div class="col-4">
               <div class="form-group">
@@ -213,8 +253,11 @@
                 </div>
                 <div class="col-3">
                   <div class="form-group">
-                    <label class="label">Enter School id</label>
-                    <input type="text" formControlName="school_id" class="form-control" placeholder="Enter School id">
+                    <label class="form-control-label" for="input-school-id">Enter School</label>
+                    <select id="input-school-id" class="form-control" formControlName="school_id">
+                      <option *ngFor="let data of schoolData; let i = index" [value]="data.school_id">{{data.school_name}}
+                      </option>
+                    </select>
                   </div>
                   <div class="some-slass">
                     <p class="small text-danger"
